@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: New Loot Table
   m_EditorClassIdentifier: 
   m_entries:
-  - Item: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    Weight: 1
-  - Item: {fileID: 11500000, guid: 7bdfdc7071c8b304bbf9985a77a297a4, type: 3}
-    Weight: 2
+  - Item: {fileID: 0}
+    Weight: 0
+  - Item: {fileID: 0}
+    Weight: 0
+  - Item: {fileID: 0}
+    Weight: 0
+  - Item: {fileID: 0}
+    Weight: 9
