@@ -10,13 +10,16 @@ public class LootTable : ScriptableObject
         [Min(0)]
         public float Weight;
         public float EffectiveWeight(float min, float max){
-            return DirtyEffectiveWeight = Weight >= min && Weight <= max ? Weight : 0;
+            DirtyEffectiveWeight = Weight >= min && Weight <= max ? Weight : 0;
+            Debug.Log($"Loot table item ({Item})'s effective weight is {DirtyEffectiveWeight}; given a weight of {Weight} and minMax of ({min},{max})");
+            return DirtyEffectiveWeight;
         }
         public float DirtyEffectiveWeight {get; private set;}
 
         public float Chance(float tableWeight, float prevChance = 0){
             DropChance = DirtyEffectiveWeight / tableWeight;
             DirtyChance = DropChance + prevChance;
+            Debug.Log($"The drop chance of {Item} is {DropChance}.");
             return DirtyChance;
         }
         public float DirtyChance {get; private set;}
@@ -30,6 +33,7 @@ public class LootTable : ScriptableObject
         foreach(var entry in m_entries){
             DirtyTableWeight += entry.DirtyEffectiveWeight;
         }
+        Debug.Log($"The sum of the table weight is {DirtyTableWeight}.");
         return DirtyTableWeight;
     }
     public float[] DirtyLowHigh {get; private set; } = new float[] {0, 1};
@@ -43,6 +47,7 @@ public class LootTable : ScriptableObject
                 DirtyLowHigh[0] = entry.Weight;
             }
         }
+        Debug.Log($"The lowest value on the table is {DirtyLowHigh[0]}");
         return DirtyLowHigh[0];
     }
     public float TableHigh() {
@@ -54,6 +59,7 @@ public class LootTable : ScriptableObject
                 DirtyLowHigh[1] = entry.Weight;
             }
         }
+        Debug.Log($"The highest value on the table is {DirtyLowHigh[1]}");
         return DirtyLowHigh[1];
     }
     public float CalSingleChance(float max, int index, float min = 0){
@@ -61,19 +67,24 @@ public class LootTable : ScriptableObject
         return m_entries[index].Chance(TableWeight(), index > 0 ? m_entries[index - 1].DirtyChance : 0);
     }
     public void CalChances(float max, float min = 0){
+        Debug.Log($"Calculating the chances for {this.name} with the minMax of ({min},{max}).");
         foreach(var entry in m_entries){
             entry.EffectiveWeight(min, max);
         }
+        Debug.Log($"All effective weights calculated.");
         TableWeight();
+        Debug.Log($"Calculating the chances.");
         for(int i = 0; i < m_entries.Length; i++){
             m_entries[i].Chance(DirtyTableWeight, i > 0 ? m_entries[i - 1].DirtyChance : 0);
         }
+        Debug.Log($"All chance calculated.");
     }
     public Object GetRandomItem(){
         return GetRandomItem(TableHigh());
     }
     public Object GetRandomItem(float max, float min = 0)//, bool guaranteeItem = false)
     {
+        Debug.Log($"Getting a random item");
         //min max validation
         if(min > TableHigh()) min = TableHigh();
         if(max < TableLow()) max = TableLow();

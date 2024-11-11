@@ -43,8 +43,9 @@ public class LootTableEditor : Editor
         dirtyRange[0] = EditorGUILayout.FloatField(dirtyRange[0]);
         dirtyRange[1] = EditorGUILayout.FloatField(dirtyRange[1]);
         
-        if(dirtyRange[0] != range[0] || dirtyRange[1] != range[1]){
-            range = dirtyRange;
+        if(dirtyRange[0] <= dirtyRange[1] && dirtyRange[1] > 0 && (dirtyRange[0] != range[0] || dirtyRange[1] != range[1])){
+            Debug.Log("Range updated");
+            range = new float[] {dirtyRange[0], dirtyRange[1]};
             ReloadTable();
         }
         for(int i = 0; i < weightCache.Length; i++){
@@ -55,10 +56,8 @@ public class LootTableEditor : Editor
         }
 
         if(doTest){
-            for(int i = 0; i < 100; i++){
-                Object newObject = m_tbl.GetRandomItem();
+                Object newObject = m_tbl.GetRandomItem(range[1], range[0]);
                 Debug.Log((newObject != null) ? $"Returned item {newObject.name}" : "Failed to get item (I did you set the range too low?)");
-            }
         }
         serializedObject.ApplyModifiedProperties();
     }
