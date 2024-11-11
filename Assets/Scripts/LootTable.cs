@@ -1,5 +1,6 @@
 //using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "New Loot Table", menuName = "Loot System/Loot Table")]
 public class LootTable : ScriptableObject
@@ -110,5 +111,20 @@ public class LootTable : ScriptableObject
                 return entry.Item;
         }
         return null;
+    }
+    public void AddNewEntry(){
+        TableEntry[] newArray = new TableEntry[m_entries.Length + 1];
+        for(int i = 0; i < m_entries.Length; i++){
+            newArray[i] = m_entries[i];
+        }
+        newArray[m_entries.Length] = new TableEntry();
+        m_entries = newArray;
+    }
+    public void RemoveLastEntry(){
+        TableEntry[] newArray = new TableEntry[m_entries.Length - 1];
+        for(int i = 0; i < newArray.Length; i++){
+            newArray[i] = m_entries[i];
+        }
+        m_entries = newArray;
     }
 }
