@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c06352e143816f341aab1809c870d9d9, type: 3}
-  m_Name: New Loot Table
+  m_Script: {fileID: 11500000, guid: f2dabe0be7b5acc428627a2b1c0ebd59, type: 3}
+  m_Name: Generic
   m_EditorClassIdentifier: 
   m_entries:
-  - Item: {fileID: 0}
-    Weight: 0
-  - Item: {fileID: 0}
-    Weight: 0
-  - Item: {fileID: 0}
-    Weight: 0
+  - Item: {fileID: 11500000, guid: 6a60547b45a97554aa6973d7c2131957, type: 3}
+    Weight: 79
+  - Item: {fileID: 11500000, guid: a943dc8a64096c64a9e30b7ef72b85aa, type: 3}
+    Weight: 2
